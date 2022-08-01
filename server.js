@@ -16,6 +16,12 @@ function parseEnvList(env) {
   return env.split(',');
 }
 
+var http = require("http");
+setInterval(function() {
+    http.get("http://bailym-plantcareapp.herokuapp.com");
+    console.log("pinged bailym-plantcareapp.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
+
 // Set up rate-limiting to avoid abuse of the public CORS Anywhere server.
 var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELIMIT);
 
@@ -44,16 +50,7 @@ cors_proxy.createServer({
     // Do not add X-Forwarded-For, etc. headers, because Heroku already adds it.
     xfwd: false,
   },
-})
-
-var http = require("http");
-setInterval(function() {
-    http.get("http://bailym-plantcareapp.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
-
-
-
-cors_proxy.listen(port, host, function() {
+}).listen(port, host, function() {
   console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
 
