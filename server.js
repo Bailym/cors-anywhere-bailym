@@ -44,6 +44,17 @@ cors_proxy.createServer({
     // Do not add X-Forwarded-For, etc. headers, because Heroku already adds it.
     xfwd: false,
   },
-}).listen(port, host, function() {
+})
+
+var http = require("http");
+setInterval(function() {
+    http.get("http://bailym-plantcareapp.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
+
+
+
+cors_proxy.listen(port, host, function() {
   console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
+
+
